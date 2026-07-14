@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Da Giorgio — Ristorante Italiano, Sucevița</title>
+<meta name="description" content="Da Giorgio — restaurant italian autentic în inima Bucovinei, la Sucevița. Pizza, paste, cola de casă și papanași. Deschis marți–duminică, 12:00–22:00.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,450;1,9..144,600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#211c16;
+    --forest:#213326;
+    --forest-deep:#161f18;
+    --clay:#a03d2c;
+    --clay-soft:#c1543d;
+    --gold:#c39a3e;
+    --gold-soft:#e2c581;
+    --parchment:#f1e9d8;
+    --parchment-dim:#e6dbc3;
+    --sage:#7c8a6b;
+    --line: rgba(195,154,62,0.35);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--forest-deep);
+  }
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  :focus-visible{outline:2px solid var(--clay); outline-offset:3px;}
+
+  /* ---------- Vine divider signature element ---------- */
+  .vine-divider{width:100%; height:34px; display:block;}
+  .vine-divider path{fill:none; stroke:var(--gold); stroke-width:1.4;}
+  .vine-divider circle{fill:var(--gold);}
+  .vine-divider.dark path{stroke:var(--gold-soft);}
+  .vine-divider.dark circle{fill:var(--gold-soft);}
+
+  /* ---------- Top nav ---------- */
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(33,25,20,0.0);
+    transition:background 0.4s ease, box-shadow 0.4s ease, padding 0.3s ease;
+    padding:22px 0;
+  }
+  .topbar.scrolled{
+    background:rgba(22,16,13,0.92);
+    backdrop-filter:blur(6px);
+    padding:14px 0;
+    box-shadow:0 2px 18px rgba(0,0,0,0.25);
+  }
+  .topbar .wrap{display:flex; align-items:center; justify-content:space-between;}
+  .brand{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.15rem;
+    color:var(--parchment); letter-spacing:0.02em;
+    display:flex; align-items:center; gap:10px;
+  }
+  .brand .mark{width:22px; height:22px;}
+  nav.links{display:flex; gap:30px; font-size:0.88rem; letter-spacing:0.03em;}
+  nav.links a{color:var(--parchment-dim); text-decoration:none; position:relative; padding-bottom:3px;}
+  nav.links a:hover{color:var(--gold-soft);}
+  .topbar .call{
+    border:1px solid var(--gold); color:var(--gold-soft); text-decoration:none;
+    padding:8px 16px; font-size:0.84rem; border-radius:2px; letter-spacing:0.03em;
+    transition:background 0.25s ease, color 0.25s ease;
+    white-space:nowrap;
+  }
+  .topbar .call:hover{background:var(--gold); color:var(--forest-deep);}
+  .nav-toggle{display:none; background:none; border:none; color:var(--parchment); font-size:1.6rem; cursor:pointer;}
+  @media (max-width:820px){
+    nav.links{display:none;}
+    .topbar .call{display:none;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex; align-items:center; justify-content:center;
+    background:
+      radial-gradient(ellipse at 50% -10%, #2c4433 0%, var(--forest) 42%, var(--forest-deep) 100%);
+    color:var(--parchment);
+    overflow:hidden;
+    padding:140px 24px 90px;
+    text-align:center;
+  }
+  .hero-arch{
+    position:absolute; inset:0; margin:auto;
+    width:min(900px, 92vw); height:100%;
+    pointer-events:none;
+    opacity:0.9;
+  }
+  .hero-inner{position:relative; z-index:2; max-width:720px;}
+  .hero .eyebrow{
+    font-size:0.78rem; letter-spacing:0.32em; text-transform:uppercase;
+    color:var(--gold-soft); margin-bottom:22px; opacity:0;
+    animation:fadeUp 1s 0.15s ease forwards;
+  }
+  .hero h1{
+    font-size:clamp(3rem, 8vw, 5.6rem);
+    line-height:0.98;
+    color:var(--parchment);
+    opacity:0;
+    animation:fadeUp 1.1s 0.35s ease forwards;
+  }
+  .hero h1 em{
+    font-style:italic; font-weight:450; color:var(--gold-soft); display:block; font-size:0.42em; letter-spacing:0.08em; margin-top:14px;
+  }
+  .hero p.lede{
+    margin:28px auto 0; max-width:480px; font-size:1.06rem; line-height:1.65;
+    color:var(--parchment-dim); font-weight:300;
+    opacity:0; animation:fadeUp 1.1s 0.55s ease forwards;
+  }
+  .hero .cta-row{
+    margin-top:40px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+    opacity:0; animation:fadeUp 1.1s 0.75s ease forwards;
+  }
+  .btn{
+    display:inline-block; padding:14px 30px; font-size:0.9rem; letter-spacing:0.04em;
+    text-decoration:none; border-radius:2px; transition:transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    font-weight:500;
+  }
+  .btn-primary{background:var(--clay); color:var(--parchment); box-shadow:0 6px 20px rgba(160,61,44,0.35);}
+  .btn-primary:hover{background:var(--clay-soft); transform:translateY(-2px);}
+  .btn-ghost{border:1px solid var(--gold-soft); color:var(--gold-soft);}
+  .btn-ghost:hover{background:rgba(226,197,129,0.1); transform:translateY(-2px);}
+
+  .hero-facts{
+    margin-top:64px; display:flex; gap:40px; justify-content:center; flex-wrap:wrap;
+    opacity:0; animation:fadeUp 1.1s 0.95s ease forwards;
+    font-size:0.82rem; letter-spacing:0.02em; color:var(--parchment-dim);
+  }
+  .hero-facts .fact{display:flex; align-items:center; gap:9px;}
+  .hero-facts svg{width:16px; height:16px; flex:none; opacity:0.85;}
+  .stars{color:var(--gold-soft); letter-spacing:2px;}
+
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(18px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+    color:var(--gold-soft); opacity:0.7; font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .scroll-cue .stem{width:1px; height:34px; background:linear-gradient(var(--gold-soft), transparent); animation:stem 2s ease-in-out infinite;}
+  @keyframes stem{ 0%,100%{transform:scaleY(1); opacity:0.5;} 50%{transform:scaleY(0.55); opacity:1;} }
+
+  /* ---------- section basics ---------- */
+  section{padding:110px 0;}
+  @media (max-width:640px){ section{padding:76px 0;} }
+  .eyebrow-label{
+    font-size:0.76rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--clay);
+    margin-bottom:18px; display:block; font-weight:500;
+  }
+
+  /* ---------- Story ---------- */
+  .story{background:var(--parchment);}
+  .story .grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; align-items:center;}
+  @media (max-width:860px){ .story .grid{grid-template-columns:1fr; gap:40px;} }
+  .story h2{font-size:clamp(2.1rem, 4vw, 2.9rem); line-height:1.08; margin-bottom:26px;}
+  .story p{font-size:1.02rem; line-height:1.8; color:#463f34; margin-bottom:18px; font-weight:300;}
+  .story-figure{
+    position:relative; aspect-ratio:4/5; border-radius:2px; overflow:hidden;
+    background:linear-gradient(160deg,#2c4433, #1a281f 70%);
+  }
+  .story-figure svg{width:100%; height:100%;}
+  .story-figure .caption{
+    position:absolute; bottom:0; left:0; right:0; padding:22px 24px;
+    background:linear-gradient(0deg, rgba(22,16,13,0.75), transparent);
+    color:var(--parchment-dim); font-size:0.78rem; letter-spacing:0.05em;
+  }
+
+  /* ---------- Menu ---------- */
+  .menu{background:var(--forest-deep); color:var(--parchment);}
+  .menu .head{max-width:640px; margin-bottom:60px;}
+  .menu .eyebrow-label{color:var(--gold-soft);}
+  .menu h2{color:var(--parchment); font-size:clamp(2.1rem,4vw,2.9rem);}
+  .menu-note{
+    max-width:640px; margin:-30px 0 50px; font-size:0.86rem; line-height:1.6;
+    color:var(--parchment-dim); font-weight:300; border-left:2px solid var(--gold);
+    padding-left:18px;
+  }
+  .menu-category{margin-bottom:64px;}
+  .menu-category:last-child{margin-bottom:0;}
+  .menu-category-head{
+    display:flex; align-items:baseline; gap:18px; margin-bottom:30px;
+    border-bottom:1px solid rgba(226,197,129,0.25); padding-bottom:14px;
+  }
+  .menu-category-head h3{
+    font-family:'Fraunces', serif; font-style:italic; font-weight:450; font-size:1.5rem; color:var(--gold-soft);
+  }
+  .menu-category-head span{font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; color:#8a8b7a;}
+  .menu-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:28px;}
+  @media (max-width:960px){ .menu-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .menu-grid{grid-template-columns:1fr;} }
+  .dish{
+    background:#1c281f; border:1px solid rgba(226,197,129,0.14); border-radius:2px; overflow:hidden;
+    transition:transform 0.3s ease, border-color 0.3s ease;
+  }
+  .dish:hover{transform:translateY(-4px); border-color:rgba(226,197,129,0.4);}
+  .dish .dish-img{width:100%; aspect-ratio:4/3; overflow:hidden; background:#10160f;}
+  .dish .dish-img img{width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease;}
+  .dish:hover .dish-img img{transform:scale(1.06);}
+  .dish .dish-body{padding:22px 22px 26px;}
+  .dish .dish-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-bottom:10px;}
+  .dish h3{font-family:'Fraunces', serif; font-weight:450; font-style:italic; font-size:1.15rem; color:var(--parchment); line-height:1.25;}
+  .dish .price{font-family:'Fraunces', serif; font-size:0.95rem; color:var(--gold); white-space:nowrap; flex:none;}
+  .dish p{font-size:0.84rem; line-height:1.55; color:var(--parchment-dim); font-weight:300;}
+
+  /* ---------- Reviews ---------- */
+  .reviews{background:var(--parchment-dim);}
+  .reviews .head{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px; margin-bottom:56px;}
+  .reviews h2{font-size:clamp(2.1rem,4vw,2.9rem);}
+  .rating-badge{
+    display:flex; align-items:center; gap:16px; background:var(--parchment); border:1px solid var(--line);
+    padding:14px 22px; border-radius:2px;
+  }
+  .rating-badge .num{font-family:'Fraunces', serif; font-size:2.1rem; font-weight:600; color:var(--forest-deep); line-height:1;}
+  .rating-badge .meta{font-size:0.75rem; color:#6b6250; line-height:1.5;}
+  .review-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  @media (max-width:900px){ .review-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:620px){ .review-grid{grid-template-columns:1fr;} }
+  .review-card{
+    background:var(--parchment); border:1px solid var(--line); padding:30px 26px; border-radius:2px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .review-card .stars{color:var(--clay); font-size:0.9rem; letter-spacing:2px;}
+  .review-card p{font-size:0.94rem; line-height:1.65; color:#463f34; font-weight:300; font-style:italic;}
+  .review-card .who{font-size:0.78rem; color:#6b6250; letter-spacing:0.04em;}
+
+  /* ---------- Location ---------- */
+  .location{background:var(--forest); color:var(--parchment);}
+  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:70px;}
+  @media (max-width:860px){ .loc-grid{grid-template-columns:1fr; gap:44px;} }
+  .location h2{color:var(--parchment); font-size:clamp(2.1rem,4vw,2.9rem); margin-bottom:30px;}
+  .info-row{display:flex; gap:16px; padding:20px 0; border-top:1px solid rgba(226,197,129,0.2);}
+  .info-row:last-child{border-bottom:1px solid rgba(226,197,129,0.2);}
+  .info-row svg{width:20px; height:20px; flex:none; color:var(--gold-soft); margin-top:2px;}
+  .info-row .label{font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:6px;}
+  .info-row .val{font-size:1rem; color:var(--parchment-dim); line-height:1.6; font-weight:300;}
+  .info-row .val a{text-decoration:none; color:var(--parchment-dim); border-bottom:1px solid rgba(226,197,129,0.4);}
+  .hours-table{width:100%; border-collapse:collapse; font-size:0.92rem;}
+  .hours-table td{padding:11px 0; border-top:1px solid rgba(226,197,129,0.15); color:var(--parchment-dim); font-weight:300;}
+  .hours-table td:last-child{text-align:right; font-family:'Fraunces', serif; font-style:italic; color:var(--parchment);}
+  .hours-table tr.closed td:last-child{color:var(--clay-soft);}
+  .map-frame{
+    border:1px solid rgba(226,197,129,0.25); border-radius:2px; overflow:hidden; aspect-ratio:4/3;
+  }
+  .map-frame iframe{width:100%; height:100%; border:0; filter:sepia(0.15) saturate(0.9);}
+
+  /* ---------- Footer / CTA ---------- */
+  footer{background:var(--forest-deep); color:var(--parchment-dim); padding:70px 0 34px;}
+  .footer-top{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:36px; padding-bottom:46px;}
+  .footer-brand{font-family:'Fraunces', serif; font-size:1.5rem; color:var(--parchment); font-style:italic; font-weight:450;}
+  .footer-brand span{display:block; font-family:'Work Sans', sans-serif; font-style:normal; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold-soft); margin-top:8px;}
+  .footer-links{display:flex; gap:56px; flex-wrap:wrap;}
+  .footer-col h4{font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:14px; font-weight:500;}
+  .footer-col a, .footer-col p{display:block; font-size:0.88rem; color:var(--parchment-dim); text-decoration:none; margin-bottom:9px; font-weight:300;}
+  .footer-col a:hover{color:var(--gold-soft);}
+  .footer-bottom{
+    border-top:1px solid rgba(226,197,129,0.15); padding-top:26px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-size:0.76rem; color:#8a8272;
+  }
+
+  /* reveal on scroll */
+  .reveal{opacity:0; transform:translateY(26px); transition:opacity 0.8s ease, transform 0.8s ease;}
+  .reveal.is-visible{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <div class="wrap">
+    <a href="#top" class="brand">
+      <svg class="mark" viewBox="0 0 24 24" fill="none"><path d="M12 2C9 6 5 9 5 14a7 7 0 0014 0c0-5-4-8-7-12z" stroke="currentColor" stroke-width="1.3"/><path d="M12 22V13" stroke="currentColor" stroke-width="1.3"/></svg>
+      Da Giorgio
+    </a>
+    <nav class="links">
+      <a href="#povestea">Povestea</a>
+      <a href="#specialitati">Specialități</a>
+      <a href="#recenzii">Recenzii</a>
+      <a href="#locatie">Locație</a>
+    </nav>
+    <a class="call" href="tel:+40731355221">+40 731 355 221</a>
+  </div>
+</div>
+
+<header class="hero" id="top">
+  <svg class="hero-arch" viewBox="0 0 900 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs>
+      <linearGradient id="archGold" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#e2c581" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#c39a3e" stop-opacity="0.25"/>
+      </linearGradient>
+    </defs>
+    <!-- outer arch -->
+    <path d="M120 780 V330 C120 160 260 60 450 60 C640 60 780 160 780 330 V780" fill="none" stroke="url(#archGold)" stroke-width="1.5"/>
+    <!-- inner arch -->
+    <path d="M170 780 V340 C170 195 290 105 450 105 C610 105 730 195 730 340 V780" fill="none" stroke="url(#archGold)" stroke-width="1"/>
+    <!-- vine along arch, echoing fresco border motifs -->
+    <g stroke="#c39a3e" stroke-width="1" fill="none" opacity="0.55">
+      <path d="M120 780 V330 C120 160 260 60 450 60 C640 60 780 160 780 330 V780"/>
+      <path d="M145 700 q18 -10 0 -20 q-18 -10 0 -20" transform="translate(-6,0)"/>
+    </g>
+    <g id="vine-leaves"></g>
+  </svg>
+
+  <div class="hero-inner">
+    <span class="eyebrow">Ristorante Italiano · Sucevița, Bucovina</span>
+    <h1>Da Giorgio<em>Gustul Italiei, în inima Bucovinei</em></h1>
+    <p class="lede">Pizza cu blat pufos, paste de casă și un pahar din cola noastră, preparată chiar aici — la câțiva pași de mănăstirea Sucevița, într-un colț de liniște gândit pentru mese lungi, alături de cei dragi.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="tel:+40731355221">Sună pentru rezervare</a>
+      <a class="btn btn-ghost" href="#specialitati">Vezi specialitățile</a>
+    </div>
+    <div class="hero-facts">
+      <div class="fact">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.9 6.3 6.9.9-5 4.9 1.3 6.9-6.1-3.4-6.1 3.4 1.3-6.9-5-4.9 6.9-.9L12 2z" fill="currentColor"/></svg>
+        <span><span class="stars">★★★★★</span> 5.0 pe Google · 39 recenzii</span>
+      </div>
+      <div class="fact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Marți – Duminică, 12:00–22:00
+      </div>
+      <div class="fact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20 21c0-4.4-3.6-8-8-8s-8 3.6-8 8"/><circle cx="12" cy="7" r="4"/></svg>
+        Calea Movileștilor 44, Sucevița
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>Descoperă</span><span class="stem"></span></div>
+</header>
+
+<svg class="vine-divider" viewBox="0 0 1200 34" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 17 Q30 2 60 17 T120 17 T180 17 T240 17 T300 17 T360 17 T420 17 T480 17 T540 17 T600 17 T660 17 T720 17 T780 17 T840 17 T900 17 T960 17 T1020 17 T1080 17 T1140 17 T1200 17"/>
+</svg>
+
+<section class="story" id="povestea">
+  <div class="wrap">
+    <div class="grid">
+      <div class="story-figure reveal">
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="figGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2c4433"/>
+              <stop offset="100%" stop-color="#161f18"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="500" fill="url(#figGrad)"/>
+          <g stroke="#c39a3e" stroke-width="1" fill="none" opacity="0.65">
+            <circle cx="200" cy="200" r="90"/>
+            <path d="M200 110 v-30 M200 320 v30 M110 200 h-30 M290 200 h30"/>
+            <path d="M140 250 q60 60 120 0" />
+            <path d="M150 165 q50 -40 100 0"/>
+          </g>
+          <g fill="#e2c581" opacity="0.9">
+            <circle cx="200" cy="80" r="3"/>
+            <circle cx="200" cy="350" r="3"/>
+            <circle cx="80" cy="200" r="3"/>
+            <circle cx="320" cy="200" r="3"/>
+          </g>
+          <text x="200" y="440" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="22" fill="#f1e9d8">dal 2023</text>
+          <text x="200" y="464" text-anchor="middle" font-family="Work Sans, sans-serif" font-size="10" letter-spacing="3" fill="#c39a3e">SUCEVIȚA · BUCOVINA</text>
+        </svg>
+        <div class="caption">Un colț de Italia, crescut din pământ bucovinean</div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow-label">Povestea</span>
+        <h2>Un drum întors acasă,<br>cu gustul Italiei în bagaj</h2>
+        <p>Da Giorgio s-a născut din drumul unui om care a plecat departe și s-a întors să gătească acasă. La Sucevița, în umbra picturilor seculare ale mănăstirii, bucătăria italiană a găsit un loc neașteptat de firesc: aceleași ritmuri liniștite, aceeași grijă pentru ce e simplu și bine făcut.</p>
+        <p>Aluatul de pizza crește după rețete aduse din Italia, pastele se întind de mână, iar cola din carafă e făcută chiar în bucătăria noastră — o mică excentricitate de care clienții s-au îndrăgostit. Rezultatul e o masă care nu grăbește pe nimeni.</p>
+        <p>Vă așteptăm la o masă gândită ca acasă — pentru o cină în doi, o sărbătoare de familie sau un popas după vizita la mănăstire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="menu" id="specialitati">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow-label">Din bucătăria noastră</span>
+      <h2>Meniul Da Giorgio</h2>
+    </div>
+    <p class="menu-note reveal">Nu am putut prelua meniul oficial complet, cu prețuri, de pe pagina restaurantului. Preparatele și prețurile de mai jos sunt orientative, alcătuite după specificul unei bucătării italiene autentice și după felurile menționate de clienți în recenzii — le puteți înlocui ușor cu lista reală, primită de la restaurant. Fotografiile sunt ilustrative (nu sunt preparate fotografiate la Da Giorgio).</p>
+
+    <div class="menu-category reveal">
+      <div class="menu-category-head"><h3>Aperitive</h3><span>Antipasti</span></div>
+      <div class="menu-grid">
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1506280754576-f6fa8a873550?w=800&q=80&auto=format&fit=crop" alt="Bruschetta cu roșii și busuioc" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Bruschetta al Pomodoro</h3><span class="price">22 lei</span></div>
+            <p>Pâine crocantă, roșii proaspete, busuioc, usturoi și ulei de măsline.</p>
+          </div>
+        </div>
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?w=800&q=80&auto=format&fit=crop" alt="Salată Caprese cu mozzarella și roșii" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Caprese</h3><span class="price">28 lei</span></div>
+            <p>Mozzarella cremoasă, roșii coapte la soare, busuioc proaspăt și un fir de ulei de măsline.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category reveal">
+      <div class="menu-category-head"><h3>Pizza</h3><span>Din cuptor</span></div>
+      <div class="menu-grid">
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=800&q=80&auto=format&fit=crop" alt="Pizza Margherita" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Margherita</h3><span class="price">32 lei</span></div>
+            <p>Sos de roșii, mozzarella și busuioc proaspăt — clasicul care nu dă greș niciodată.</p>
+          </div>
+        </div>
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1573821663912-6df460f9c684?w=800&q=80&auto=format&fit=crop" alt="Pizza Diavola picantă" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Diavola</h3><span class="price">36 lei</span></div>
+            <p>Salam picant, ardei iute și mozzarella — pentru cei cărora le place puțină ardoare.</p>
+          </div>
+        </div>
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1520201163981-8cc95007dd2a?w=800&q=80&auto=format&fit=crop" alt="Pizza Quattro Formaggi" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Quattro Formaggi</h3><span class="price">40 lei</span></div>
+            <p>Patru tipuri de brânză italiană topite pe blatul nostru pufos, copt în cuptor.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category reveal">
+      <div class="menu-category-head"><h3>Paste</h3><span>Fatte a mano</span></div>
+      <div class="menu-grid">
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1633337474564-1d9478ca4e2e?w=800&q=80&auto=format&fit=crop" alt="Spaghetti Carbonara" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Spaghetti Carbonara</h3><span class="price">34 lei</span></div>
+            <p>Pancetta crocantă, gălbenuș de ou și parmezan — rețeta romană, fără cremă.</p>
+          </div>
+        </div>
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1598866594230-a7c12756260f?w=800&q=80&auto=format&fit=crop" alt="Tagliatelle al Ragù" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Tagliatelle al Ragù</h3><span class="price">36 lei</span></div>
+            <p>Sos bolognese gătit lent, pe paste proaspete, întinse manual în bucătăria noastră.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category reveal">
+      <div class="menu-category-head"><h3>Specialitățile casei</h3><span>Da Giorgio</span></div>
+      <div class="menu-grid">
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&q=80&auto=format&fit=crop" alt="Papanași cu smântână și dulceață" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Papanași</h3><span class="price">24 lei</span></div>
+            <p>Desertul tradițional românesc, cu smântână și dulceață de afine — puntea dintre cele două bucătării ale casei.</p>
+          </div>
+        </div>
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1766232333746-b0a2697d6d0d?w=800&q=80&auto=format&fit=crop" alt="Tiramisu" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Tiramisu</h3><span class="price">22 lei</span></div>
+            <p>Mascarpone, cafea espresso și cacao — desertul italian clasic, preparat în casă.</p>
+          </div>
+        </div>
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1625126590447-cb769384e1f0?w=800&q=80&auto=format&fit=crop" alt="Cola de casă" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Cola de casă</h3><span class="price">12 lei</span></div>
+            <p>Băutura semnătură a restaurantului, preparată chiar în bucătăria noastră — o curiozitate lăudată constant de clienți.</p>
+          </div>
+        </div>
+        <div class="dish">
+          <div class="dish-img"><img src="https://images.unsplash.com/photo-1522427088495-81d38b91befb?w=800&q=80&auto=format&fit=crop" alt="Limonadă de casă" loading="lazy"></div>
+          <div class="dish-body">
+            <div class="dish-top"><h3>Limonadă de casă</h3><span class="price">14 lei</span></div>
+            <p>Lămâie proaspăt stoarsă și mentă — răcoritoarea perfectă pentru o zi de vară în Bucovina.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="vine-divider dark" viewBox="0 0 1200 34" preserveAspectRatio="none" aria-hidden="true" style="background:var(--forest-deep)">
+  <path d="M0 17 Q30 32 60 17 T120 17 T180 17 T240 17 T300 17 T360 17 T420 17 T480 17 T540 17 T600 17 T660 17 T720 17 T780 17 T840 17 T900 17 T960 17 T1020 17 T1080 17 T1140 17 T1200 17"/>
+</svg>
+
+<section class="reviews" id="recenzii">
+  <div class="wrap">
+    <div class="head reveal">
+      <div>
+        <span class="eyebrow-label">Ce spun oaspeții</span>
+        <h2>Recenzii de la mese ca a voastră</h2>
+      </div>
+      <div class="rating-badge">
+        <span class="num">5.0</span>
+        <span class="meta">din 39 de<br>recenzii Google</span>
+      </div>
+    </div>
+    <div class="review-grid">
+      <div class="review-card reveal">
+        <span class="stars">★★★★★</span>
+        <p>„Una dintre cele mai bune pizza din zonă — aluat excelent și paste delicioase. Papanașii de aici merită neapărat încercați, la fel și cola preparată în casă.”</p>
+        <span class="who">Vizitator, recenzie Google</span>
+      </div>
+      <div class="review-card reveal">
+        <span class="stars">★★★★★</span>
+        <p>„Atmosferă primitoare, personal atent și profesionist. Ni s-a recomandat locul special pentru cola de casă — și pe bună dreptate, a fost o experiență completă.”</p>
+        <span class="who">Vizitator, recenzie Google</span>
+      </div>
+      <div class="review-card reveal">
+        <span class="stars">★★★★★</span>
+        <p>„Se simte povestea din spatele locului — un om întors acasă pentru a aduce gustul autentic al Italiei. Produse de calitate, atmosferă plăcută, cald recomandat.”</p>
+        <span class="who">Vizitator, recenzie Google</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="location" id="locatie">
+  <div class="wrap">
+    <div class="loc-grid">
+      <div class="reveal">
+        <span class="eyebrow-label" style="color:var(--gold-soft)">Vizitați-ne</span>
+        <h2>Locație &amp; program</h2>
+
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20 21c0-4.4-3.6-8-8-8s-8 3.6-8 8"/><circle cx="12" cy="7" r="4"/></svg>
+          <div>
+            <div class="label">Adresă</div>
+            <div class="val">Calea Movileștilor nr. 44, Sucevița, județul Suceava</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.5 2.1L8 9.7a16 16 0 006.3 6.3l1.2-1.2a2 2 0 012.1-.5c.9.3 1.8.5 2.7.6a2 2 0 011.7 2.1z"/></svg>
+          <div>
+            <div class="label">Telefon</div>
+            <div class="val"><a href="tel:+40731355221">+40 731 355 221</a></div>
+          </div>
+        </div>
+        <table class="hours-table">
+          <tr class="closed"><td>Luni</td><td>Închis</td></tr>
+          <tr><td>Marți</td><td>12:00 – 22:00</td></tr>
+          <tr><td>Miercuri</td><td>12:00 – 22:00</td></tr>
+          <tr><td>Joi</td><td>12:00 – 22:00</td></tr>
+          <tr><td>Vineri</td><td>12:00 – 22:00</td></tr>
+          <tr><td>Sâmbătă</td><td>12:00 – 22:00</td></tr>
+          <tr><td>Duminică</td><td>12:00 – 22:00</td></tr>
+        </table>
+      </div>
+      <div class="reveal">
+        <div class="map-frame">
+          <iframe title="Harta Da Giorgio, Sucevița" loading="lazy" src="https://www.google.com/maps?q=Da+Giorgio+Sucevita+Romania&output=embed"></iframe>
+        </div>
+        <div class="cta-row" style="justify-content:flex-start; margin-top:24px;">
+          <a class="btn btn-primary" href="tel:+40731355221">Sună pentru rezervare</a>
+          <a class="btn btn-ghost" href="https://www.google.com/maps/place/?q=place_id:ChIJ92BSTgBLNEcR6-7mOUVdTuU" target="_blank" rel="noopener">Deschide în Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">Da Giorgio<span>Ristorante Italiano · Sucevița</span></div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="tel:+40731355221">+40 731 355 221</a>
+          <p>Calea Movileștilor 44, Sucevița</p>
+        </div>
+        <div class="footer-col">
+          <h4>Program</h4>
+          <p>Marți–Duminică, 12:00–22:00</p>
+          <p>Luni: închis</p>
+        </div>
+        <div class="footer-col">
+          <h4>Urmăriți-ne</h4>
+          <a href="https://www.facebook.com/p/Da-Giorgio-Restaurant-61577102348207/" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://www.google.com/maps/place/?q=place_id:ChIJ92BSTgBLNEcR6-7mOUVdTuU" target="_blank" rel="noopener">Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Da Giorgio Sucevița. Toate drepturile rezervate.</span>
+      <span>În inima Bucovinei, aproape de mănăstirea Sucevița.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // topbar background on scroll
+  const topbar = document.getElementById('topbar');
+  window.addEventListener('scroll', () => {
+    topbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive:true });
+
+  // reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // decorative leaves along hero arch
+  const leafGroup = document.getElementById('vine-leaves');
+  if (leafGroup) {
+    const pts = [
+      [120,700],[130,600],[140,500],[160,410],[190,320],[230,230],[280,160],[340,115],
+      [780,700],[770,600],[760,500],[740,410],[710,320],[670,230],[620,160],[560,115]
+    ];
+    pts.forEach(([x,y],i)=>{
+      const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r', i%3===0?3:1.6);
+      c.setAttribute('fill', '#c39a3e'); c.setAttribute('opacity', 0.6);
+      leafGroup.appendChild(c);
+    });
+  }
+</script>
+
+</body>
+</html>
